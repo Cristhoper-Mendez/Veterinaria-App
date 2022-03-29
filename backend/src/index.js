@@ -2,6 +2,9 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 
+// Import routes
+import veterinarioRoutes from "./routes/veterinarioRoutes";
+
 // Inicializations
 const app = express();
 require("dotenv").config();
@@ -14,9 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.get("/", (req, res) => {
-  res.send("Server working");
-});
+app.use("/api/veterinarios", veterinarioRoutes);
 
 // Start server
 const port = process.env.PORT || 4000;
