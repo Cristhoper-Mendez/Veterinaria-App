@@ -4,6 +4,7 @@ import cors from "cors";
 
 // Import routes
 import veterinarioRoutes from "./routes/veterinarioRoutes";
+import pacienteRoutes from "./routes/pacienteRoutes";
 
 // Inicializations
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/veterinarios", veterinarioRoutes);
+app.use("/api/pacientes", pacienteRoutes);
 
 // Start server
 const port = process.env.PORT || 4000;
