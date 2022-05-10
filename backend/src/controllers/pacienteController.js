@@ -32,6 +32,13 @@ export const obtenerPaciente = async (req, res) => {
 
   const paciente = await Paciente.findById(id);
 
+  if (!paciente) {
+    return res.status(404).json({
+      error: true,
+      msg: "Paciente no encontrado.",
+    });
+  }
+
   if (paciente.veterinario._id.toString() !== req.veterinario._id.toString()) {
     return res.status(401).json({
       error: true,
@@ -45,15 +52,46 @@ export const obtenerPaciente = async (req, res) => {
       msg: "",
       data: paciente,
     });
-  } else {
+  }
+};
+
+export const actualizarPaciente = async (req, res) => {
+  const { id } = req.params;
+
+  const paciente = await Paciente.findById(id);
+
+  if (!paciente) {
     return res.status(404).json({
       error: true,
       msg: "Paciente no encontrado.",
     });
   }
-};
 
-export const actualizarPaciente = async (req, res) => {};
+  if (paciente.veterinario._id.toString() !== req.veterinario._id.toString()) {
+    return res.status(401).json({
+      error: true,
+      msg: "No estas autorizado para esta accion.",
+    });
+  }
+
+  paciente.nombre = req.body.nombre || paciente.nombre;
+  paciente.propietario = req.body.propietario || paciente.propietario;
+  paciente.email = req.body.email || paciente.email;
+  paciente.fecha = req.body.fecha || paciente.fecha;
+  paciente.sintomas = req.body.sintomas || paciente.sintomas;
+
+  try {
+    const pacienteActualizado = await paciente.save();
+
+    res.json({
+      error: false,
+      msg: "Paciente actualizado correctamente.",
+      data: pacienteActualizado,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const eliminarPaciente = async (req, res) => {};
 
