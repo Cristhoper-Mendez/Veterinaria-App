@@ -27,4 +27,34 @@ export const obtenerPacientes = async (req, res) => {
   });
 };
 
+export const obtenerPaciente = async (req, res) => {
+  const { id } = req.params;
+
+  const paciente = await Paciente.findById(id);
+
+  if (paciente.veterinario._id.toString() !== req.veterinario._id.toString()) {
+    return res.status(401).json({
+      error: true,
+      msg: "No estas autorizado para esta accion.",
+    });
+  }
+
+  if (paciente) {
+    res.json({
+      error: false,
+      msg: "",
+      data: paciente,
+    });
+  } else {
+    return res.status(404).json({
+      error: true,
+      msg: "Paciente no encontrado.",
+    });
+  }
+};
+
+export const actualizarPaciente = async (req, res) => {};
+
+export const eliminarPaciente = async (req, res) => {};
+
 // export const agregarPaciente = async (req, res) => {}
