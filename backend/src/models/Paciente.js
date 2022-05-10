@@ -14,15 +14,16 @@ const pacienteSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    fechaAlta: {
+    fecha: {
       type: Date,
       required: true,
+      default: Date.now()
     },
-    email: {
+    sintomas: {
       type: String,
       required: true,
     },
-    veterianario: {
+    veterinario: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "Veterinario",
