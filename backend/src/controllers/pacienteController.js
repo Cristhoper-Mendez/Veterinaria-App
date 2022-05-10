@@ -5,18 +5,26 @@ export const agregarPaciente = async (req, res) => {
   paciente.veterinario = req.veterinario._id;
 
   try {
-    paciente.save();
+    const pacienteRegistrado = await paciente.save();
 
     res.json({
       error: false,
       msg: "Paciente registrado correctamente.",
-      paciente,
+      data: pacienteRegistrado,
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-export const obtenerPacientes = async (req, res) => {};
+export const obtenerPacientes = async (req, res) => {
+  const pacientes = await Paciente.find({ veterinario: req.veterinario._id });
+
+  res.json({
+    error: false,
+    msg: "",
+    data: pacientes,
+  });
+};
 
 // export const agregarPaciente = async (req, res) => {}

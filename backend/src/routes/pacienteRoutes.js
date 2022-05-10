@@ -4,6 +4,9 @@ const router = Router();
 import {
   agregarPaciente,
   obtenerPacientes,
+  obtenerPaciente,
+  actualizarPaciente,
+  eliminarPaciente
 } from "../controllers/pacienteController";
 
 import checkAuth from "../middlewares/authMiddleware";
