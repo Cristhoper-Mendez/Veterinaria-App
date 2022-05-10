@@ -6,6 +6,11 @@ import {
   obtenerPacientes,
 } from "../controllers/pacienteController";
 
-router.route("/").post(agregarPaciente).get(obtenerPacientes);
+import checkAuth from "../middlewares/authMiddleware";
+
+router
+  .route("/")
+  .post(checkAuth, agregarPaciente)
+  .get(checkAuth, obtenerPacientes);
 
 export default router;
