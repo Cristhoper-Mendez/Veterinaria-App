@@ -72,7 +72,7 @@ const Registrar = () => {
             ¿Ya tienes una cuenta? Inicia sesion!
           </Link>
           <Link
-            to="/registrar"
+            to="/olvide-password"
             className="block text-center my-5 text-gray-500"
           >
             Olvide mi Password
