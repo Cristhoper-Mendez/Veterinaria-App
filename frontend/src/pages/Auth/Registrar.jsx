@@ -1,8 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Link } from "react-router-dom";
+import axios from "axios";
+
+import Alerta from "../../components/Alerta";
 
 const Registrar = () => {
+  const [nombre, setNombre] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [alerta, setAlerta] = useState({});
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validar datos
+    if ([nombre, email, password, confirmPassword].includes("")) {
+      return setAlerta({
+        msg: "Hay campos vacios.",
+        error: true,
+      });
+    }
+
+    if (password !== confirmPassword) {
+      return setAlerta({
+        msg: "Los passwords no son iguales.",
+        error: true,
+      });
+    }
+
+    if (password.length < 6) {
+      return setAlerta({
+        msg: "El password es muy corto, agrega minimo 8 caracteres.",
+        error: true,
+      });
+    }
+
+    setAlerta({});
+
+    // Crear usuario
+    try {
+      const url = "http://localhost:4000/api/veterinarios";
+      const res = await axios.post(url, { nombre, email, password });
+
+      if (!res.data.error) {
+        setAlerta({
+          msg: "Creado correctamente, revisa tu email.",
+          error: false,
+        });
+      } else {
+        setAlerta({
+          msg: res.data.msg,
+          error: false,
+        });
+      }
+
+      console.log(res);
+    } catch (error) {
+      setAlerta({
+        msg: error.response.data.msg,
+        error: true,
+      });
+    }
+  };
+
+  const { msg } = alerta;
+
   return (
     <>
       <div>
@@ -12,7 +77,9 @@ const Registrar = () => {
         </h1>
       </div>
       <div className="mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl bg-white">
-        <form>
+        {msg && <Alerta alerta={alerta} />}
+
+        <form onSubmit={handleSubmit}>
           <div className="my-5">
             <label className="uppercase text-gray-600 block text-xl font-bold">
               Nombre
@@ -21,6 +88,8 @@ const Registrar = () => {
               type="text"
               className="border w-full p-3 mt-3 bg-gray-50 rounded-xl"
               placeholder="Tu nombre"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
             />
           </div>
 
@@ -32,6 +101,8 @@ const Registrar = () => {
               type="email"
               className="border w-full p-3 mt-3 bg-gray-50 rounded-xl"
               placeholder="Email de login"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -43,6 +114,8 @@ const Registrar = () => {
               type="password"
               className="border w-full p-3 mt-3 bg-gray-50 rounded-xl"
               placeholder="Tu password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
@@ -54,6 +127,8 @@ const Registrar = () => {
               type="password"
               className="border w-full p-3 mt-3 bg-gray-50 rounded-xl"
               placeholder="Repite tu password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
 
