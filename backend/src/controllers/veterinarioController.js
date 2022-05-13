@@ -1,10 +1,11 @@
 import Veterinario from "../models/Veterinario";
 import generarJWT from "../helpers/generarJWT";
 import generarId from "../helpers/generarId";
+import registro from "../helpers/email/emailRegistro";
 
 export const registrar = async (req, res) => {
   const { body } = req;
-  const { email } = body;
+  const { email, nombre } = body;
 
   // Verificar si el usuario ya esta registrado
   const existeUsuario = await Veterinario.findOne({ email });
@@ -22,6 +23,13 @@ export const registrar = async (req, res) => {
     const veterinario = new Veterinario(body);
 
     const veterinarioGuardado = await veterinario.save();
+
+    // Enviar email
+    registro({
+      email,
+      nombre,
+      token: veterinarioGuardado.token,
+    });
 
     res.status(201).json({
       error: false,
