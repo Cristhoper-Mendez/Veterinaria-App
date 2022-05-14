@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Link } from "react-router-dom";
-import axios from "axios";
+import clienteAxios from "../../config/axios";
 
 import Alerta from "../../components/Alerta";
 
@@ -42,8 +42,10 @@ const Registrar = () => {
 
     // Crear usuario
     try {
-      const url = "http://localhost:4000/api/veterinarios";
-      const res = await axios.post(url, { nombre, email, password });
+      const url = "veterinarios";
+      const res = await clienteAxios.post(url, { nombre, email, password });
+
+      console.log(res);
 
       if (!res.data.error) {
         setAlerta({
@@ -141,7 +143,7 @@ const Registrar = () => {
 
         <nav className="mt-10 lg:flex lg:justify-between">
           <Link
-            to="/registrar"
+            to="/"
             className="block text-center my-5 text-gray-500"
           >
             ¿Ya tienes una cuenta? Inicia sesion!
