@@ -11,9 +11,22 @@ const app = express();
 require("dotenv").config();
 require("./config/db");
 
+// Cors conf
+const dominiosPermitidos = [process.env.FRONTEND_URL];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (dominiosPermitidos.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("No permitido por Cors"));
+    }
+  },
+};
+
 // Middlewares
 app.use(morgan("tiny"));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
