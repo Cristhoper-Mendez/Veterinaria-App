@@ -16,7 +16,7 @@ function App() {
           <Route index element={<Login />} />
           <Route path="confirmar-cuenta/:id" element={<ConfirmarCuenta />} />
           <Route path="olvide-password" element={<OlvidePassword />} />
-          <Route path="olvide-password:token" element={<NuevoPassword />} />
+          <Route path="olvide-password/:token" element={<NuevoPassword />} />
           <Route path="registrar" element={<Registrar />} />
         </Route>
       </Routes>
