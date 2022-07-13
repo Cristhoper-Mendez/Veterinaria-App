@@ -44,11 +44,11 @@ export const registrar = async (req, res) => {
 
 export const perfil = async (req, res) => {
   try {
-    const veterinario = await Veterinario.findById(req.veterinario._id);
+    const { veterinario } = req;
 
     res.status(201).json({
       error: false,
-      veterinario,
+      profile: veterinario,
     });
   } catch (error) {
     console.log(error);
