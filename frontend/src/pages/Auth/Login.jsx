@@ -31,8 +31,10 @@ const Login = () => {
         password,
       });
 
-      localStorage.setItem("token", data.token);
-      
+      setAuth(data.usuario);
+
+      localStorage.setItem("token", data.usuario.token);
+
       navigate("/admin");
     } catch (error) {
       setAlerta({

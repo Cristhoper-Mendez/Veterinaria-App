@@ -85,7 +85,7 @@ export const autenticar = async (req, res) => {
   const { password, email } = req.body;
 
   // Comprobar si el usuario existe
-  const usuario = await Veterinario.findOne({ email });
+  const usuario = await Veterinario.findOne({ email }).select(" -token");
 
   if (!usuario) {
     const error = new Error("El usuario no fue encontrado.");
@@ -110,7 +110,14 @@ export const autenticar = async (req, res) => {
   if (await usuario.comprobarPassword(password)) {
     return res.json({
       error: false,
-      token: generarJWT(usuario._id),
+      usuario: {
+        _id: usuario._id,
+        email: usuario.email,
+        nombre: usuario.nombre,
+        telefono: usuario.telefono,
+        token: generarJWT(usuario._id),
+        web: usuario.web,
+      },
     });
   } else {
     const error = new Error("Usuario o contraseña incorrectos.");
