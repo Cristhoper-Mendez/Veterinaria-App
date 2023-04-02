@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 mongoose
   .connect(process.env.URI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // useUnifiedTopology: true,
     // useCreateIndex: true,
     // useFindAndModify: false,
   })
